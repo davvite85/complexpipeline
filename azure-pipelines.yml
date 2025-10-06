@@ -1,0 +1,16 @@
+# azure-pipelines.yml
+trigger:
+- main  # Runs when changes are pushed to main branch
+
+pool:
+  vmImage: 'ubuntu-latest'  # You can also use 'windows-latest' or 'macos-latest'
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+    addToPath: true
+
+- script: |
+    python hello.py
+  displayName: 'Run Python script'
