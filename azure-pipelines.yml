@@ -1,16 +1,33 @@
 # azure-pipelines.yml
 trigger:
-- main  # Runs when changes are pushed to main branch
+  branches:
+    include:
+    - main
+    - develop
+
+pr:
+  branches:
+    include:
+    - main
 
 pool:
-  vmImage: 'ubuntu-latest'  # You can also use 'windows-latest' or 'macos-latest'
+  vmImage: 'ubuntu-latest'
 
 steps:
 - task: UsePythonVersion@0
   inputs:
-    versionSpec: '3.x'
+    versionSpec: '3.9'
     addToPath: true
+  displayName: 'Set up Python'
 
 - script: |
-    python hello.py
-  displayName: 'Run Python script'
+    python -c "import sys; print(f'Python path: {sys.executable}')"
+  displayName: 'Check Python installation'
+
+- task: CmdLine@2
+  inputs:
+    script: |
+      echo "Running Python script..."
+      python hello.py
+      echo "Script execution completed!"
+  displayName: 'Execute Python script and print output'
